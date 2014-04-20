@@ -1,5 +1,6 @@
 package adapter;
 
+import com.team8.framusic.R;
 import com.team8.framusic.Activity.FullScreenViewActivity;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,31 +23,33 @@ import android.widget.ImageView;
 public class GridViewImageAdapter extends BaseAdapter {
 
 	private Activity _activity;
-	private ArrayList<String> _filePaths = new ArrayList<String>();
+	private int[] _images = new int[4];
 	private int imageWidth;
+	static int imgResource[]={R.drawable.sample_0,R.drawable.sample_1,R.drawable.sample_2,R.drawable.sample_3,R.drawable.sample_4,R.drawable.sample_5,
+            R.drawable.sample_6};
 
-	public GridViewImageAdapter(Activity activity, ArrayList<String> filePaths,
+	public GridViewImageAdapter(Activity activity, int[] images,
 			int imageWidth) {
 		this._activity = activity;
-		this._filePaths = filePaths;
+		this._images = images;
 		this.imageWidth = imageWidth;
 	}
 
 	@Override
 	public int getCount() {
-		return this._filePaths.size();
+		return this._images.length;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return this._filePaths.get(position);
+		return this._images[position];
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return position;
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageView imageView;
@@ -56,8 +60,8 @@ public class GridViewImageAdapter extends BaseAdapter {
 		}
 
 		// get screen dimensions
-		Bitmap image = decodeFile(_filePaths.get(position), imageWidth,
-				imageWidth);
+		Bitmap image = decodeFile(_images[position], imageWidth,
+				imageWidth, position);
 
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		imageView.setLayoutParams(new GridView.LayoutParams(imageWidth,
@@ -97,6 +101,34 @@ public class GridViewImageAdapter extends BaseAdapter {
 		try {
 
 			File f = new File(filePath);
+
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+			final int REQUIRED_WIDTH = WIDTH;
+			final int REQUIRED_HIGHT = HIGHT;
+			int scale = 1;
+			while (o.outWidth / scale / 2 >= REQUIRED_WIDTH
+					&& o.outHeight / scale / 2 >= REQUIRED_HIGHT)
+				scale *= 2;
+
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Bitmap decodeFile(int filePath, int WIDTH, int HIGHT, int p) {
+		try {
+
+			//File f = new File(filePath);
+			
+			Bitmap largeIcon = BitmapFactory.decodeResource(imgResource[p],);
+
 
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;

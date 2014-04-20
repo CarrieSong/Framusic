@@ -3,6 +3,7 @@ package com.team8.framusic.Activity;
 import com.team8.framusic.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,8 @@ public class Layout1Activity extends Activity {
 	ImageView image1;
 	
 	private void findViews() {
-		btn1 = (Button)findViewById(R.id.btn1);
-		image1 = (ImageView)findViewById(R.id.image1);
+		btn1 = (Button)findViewById(R.id.btn1_1);
+		image1 = (ImageView)findViewById(R.id.image1_1);
 	}
 	
 	private void setListeners() {
@@ -36,7 +37,7 @@ public class Layout1Activity extends Activity {
 		{
 			btn1.setVisibility(View.GONE);
 			image1.setImageResource(R.drawable.sample_0);
-			//Intent intent = new Intent(Layout2Activity.this, GridViewActivity.class);
+			//Intent intent = new Intent(Layout1Activity.this, GridViewActivity.class);
 			//startActivity(intent);
 		}
     };

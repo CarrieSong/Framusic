@@ -29,7 +29,7 @@ public class LayoutSettingActivity extends Activity {
 		getSharedPreferences();
 		processExtraData();
 
-		Button next = (Button) findViewById(R.id.button4);
+		Button next = (Button) findViewById(R.id.btn_next);
 		next.setOnClickListener(new OnClickListener() {
 
 			@Override
